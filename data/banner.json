@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "judul": "Jasa Pembuatan Website Profesional & Terjangkau",
+        "subjudul": "Tingkatkan kredibilitas bisnis Anda dengan website modern, cepat, dan SEO friendly.",
+        "gambar": "https:\/\/images.unsplash.com\/photo-1460925895917-afdab827c52f?w=1600",
+        "tombol": "Lihat Paket",
+        "link": "produk.php"
+    },
+    {
+        "id": 2,
+        "judul": "Website Toko Online Siap Jualan",
+        "subjudul": "Terima pesanan 24 jam dengan katalog produk dan checkout WhatsApp.",
+        "gambar": "https:\/\/images.unsplash.com\/photo-1556742049-0cfed4f6a45d?w=1600",
+        "tombol": "Konsultasi Gratis",
+        "link": "kontak.php"
+    }
+]
