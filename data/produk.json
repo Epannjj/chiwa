@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "nama": "Paket Starter",
+        "harga": "750000",
+        "fitur": "Landing page 1 halaman\nDomain .com 1 tahun\nHosting 1 GB\nSSL gratis\nTombol WhatsApp",
+        "populer": ""
+    },
+    {
+        "id": 2,
+        "nama": "Paket Bisnis",
+        "harga": "1500000",
+        "fitur": "Company profile 5 halaman\nDomain .com 1 tahun\nHosting 3 GB\nEmail bisnis\nSEO dasar\nRevisi 3x",
+        "populer": "1"
+    },
+    {
+        "id": 3,
+        "nama": "Paket Toko Online",
+        "harga": "2500000",
+        "fitur": "Katalog produk unlimited\nKeranjang & checkout WA\nHosting 5 GB\nPanel admin\nSEO lanjutan\nGaransi 1 tahun",
+        "populer": ""
+    }
+]

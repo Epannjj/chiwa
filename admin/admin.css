@@ -1,0 +1,22 @@
+*{box-sizing:border-box;margin:0}body{font-family:'Plus Jakarta Sans',sans-serif;background:#f3f4f9;color:#2b3050;display:flex}
+.side{width:240px;min-height:100vh;background:#0b1030;padding:1.5rem 1rem;position:sticky;top:0}
+.brand{color:#fff;font-weight:800;font-size:1.2rem;margin-bottom:1.5rem}
+.side a{display:block;color:#aab0cf;text-decoration:none;padding:.65rem .9rem;border-radius:10px;margin-bottom:.2rem}.side a.on,.side a:hover{background:#ff5a1f;color:#fff}
+.main{flex:1;padding:2rem}.main h1{margin-bottom:1.5rem}
+.panel{background:#fff;border-radius:14px;padding:1.5rem;box-shadow:0 4px 20px rgba(0,0,0,.05);margin-bottom:1.5rem}
+.layout{display:grid;grid-template-columns:360px 1fr;gap:1.5rem;align-items:start}
+label{display:block;font-weight:600;margin:.8rem 0;font-size:.9rem}
+input,textarea{width:100%;padding:.65rem .8rem;border:1.5px solid #dde0ec;border-radius:8px;font:inherit;margin-top:.3rem}
+input[type=checkbox]{width:auto}input[type=color]{height:44px;padding:2px}
+.btn{background:#ff5a1f;color:#fff;border:0;padding:.65rem 1.3rem;border-radius:8px;cursor:pointer;font-weight:600;text-decoration:none;display:inline-block;font-size:.9rem}
+.btn.sm{padding:.35rem .8rem;font-size:.8rem}.btn.red{background:#e5484d}.btn.gray{background:#8a8fa8}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:.75rem;border-bottom:1px solid #eef0f6;vertical-align:middle;font-size:.9rem}
+td img{width:70px;height:46px;object-fit:cover;border-radius:6px}.act{display:flex;gap:.4rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem}
+.stat{background:#fff;padding:1.5rem;border-radius:14px;text-decoration:none;color:inherit;border-left:5px solid #ff5a1f}.stat b{font-size:2rem;display:block}
+.ok{background:#e6f9ee;color:#137a3e;padding:.9rem;border-radius:8px;margin-bottom:1rem}.err{background:#fde8e8;color:#b42318;padding:.7rem;border-radius:8px}
+.search{margin-bottom:1rem}.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 1.5rem}
+.preview{margin-top:.5rem;max-height:120px;border-radius:8px}
+.login{justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg,#0b1030,#1d2660)}
+.box{background:#fff;padding:2.5rem;border-radius:16px;width:360px}.box .btn{width:100%;margin:1rem 0 .5rem}
+@media(max-width:900px){body{flex-direction:column}.side{width:100%;min-height:auto;position:static}.layout,.grid{grid-template-columns:1fr}}
