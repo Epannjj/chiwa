@@ -4,6 +4,7 @@ function contact_db() {
   static $pdo = null;
   if ($pdo instanceof PDO) { return $pdo; }
   $file = __DIR__ . '/database.local.php';
+  if (!is_file($file)) { $file = __DIR__ . '/database.local.example.php'; }
   $local = is_file($file) ? require $file : [];
   if (!is_array($local)) { throw new RuntimeException('Invalid database configuration.'); }
   $get = function ($key, $default = '') use ($local) {
@@ -12,19 +13,47 @@ function contact_db() {
   };
   $host = $get('host', '127.0.0.1');
   $port = $get('port', '3306');
-  $name = $get('name', 'webpromo');
-  $user = $get('user');
+  $name = $get('name', 'chiwa');
+  $user = $get('user', 'root');
+  $pass = $get('pass');
   if ($user === '' || !preg_match('/^[0-9]+$/', (string)$port)
       || preg_match('/[;\x00-\x1f]/', $host . $name)) {
-    throw new RuntimeException('Configure database.local.php or DB_* environment variables first.');
+    throw new RuntimeException('Configure includes/database.local.php or DB_* environment variables first.');
   }
-  $pdo = new PDO("mysql:host=$host;port=$port;dbname=$name;charset=utf8mb4", $user, $get('pass'), [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-  ]);
-  $pdo->exec("SET time_zone = '+07:00'");
+  try {
+    $pdo = new PDO("mysql:host=$host;port=$port;dbname=$name;charset=utf8mb4", $user, $pass, [
+      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+      PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+      PDO::ATTR_EMULATE_PREPARES => false,
+    ]);
+    $pdo->exec("SET time_zone = '+07:00'");
+  } catch (PDOException $error) {
+    throw new RuntimeException(
+      'Koneksi database gagal. Periksa DB_HOST, DB_PORT, DB_NAME, DB_USER, dan DB_PASS atau includes/database.local.php. Detail: ' . $error->getMessage(),
+      (int)$error->getCode(),
+      $error
+    );
+  }
   return $pdo;
+}
+
+function database_status() {
+  try {
+    $pdo = contact_db();
+  } catch (RuntimeException $error) {
+    return ['connected' => false, 'missing_tables' => [], 'error' => $error->getMessage()];
+  }
+
+  $requiredTables = ['settings', 'banner', 'portofolio', 'produk', 'testimoni', 'faq', 'pesan_kontak'];
+  $missingTables = [];
+  foreach ($requiredTables as $table) {
+    try {
+      $pdo->query("SELECT 1 FROM `$table` LIMIT 0");
+    } catch (PDOException $error) {
+      $missingTables[] = $table;
+    }
+  }
+  return ['connected' => true, 'missing_tables' => $missingTables, 'error' => ''];
 }
 
 function contact_validate($input) {

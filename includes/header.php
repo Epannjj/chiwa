@@ -1,4 +1,4 @@
-<?php require_once __DIR__.'/config.php'; require_once __DIR__.'/seed.php';
+<?php require_once __DIR__.'/config.php';
 $page = basename($_SERVER['PHP_SELF'], '.php');
 $nav = ['index'=>'Beranda','produk'=>'Produk','portofolio'=>'Portofolio','testimoni'=>'Testimoni','faq'=>'FAQ','kontak'=>'Kontak']; ?>
 <!DOCTYPE html>

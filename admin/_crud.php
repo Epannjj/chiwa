@@ -2,14 +2,13 @@
 require_once '_auth.php';
 $mod = $MODULES[$type]; $items = load($type); $msg = '';
 if ($_SERVER['REQUEST_METHOD']==='POST') {
-  if (isset($_POST['hapus'])) { $items = array_values(array_filter($items, fn($i)=>$i['id']!=$_POST['hapus'])); $msg='Data dihapus'; }
+  if (isset($_POST['hapus'])) { delete_item($type, $_POST['hapus']); $msg='Data dihapus'; }
   else {
-    $row = ['id' => $_POST['id'] ?: time()];
+    $row = ['id' => $_POST['id'] ?: null];
     foreach ($mod['fields'] as $f=>$t) $row[$f] = $t==='checkbox' ? (isset($_POST[$f])?'1':'') : trim($_POST[$f]??'');
-    $found=false; foreach ($items as &$i) if ($i['id']==$row['id']) { $i=$row; $found=true; } unset($i);
-    if (!$found) $items[] = $row; $msg='Data disimpan';
+    save_item($type, $row); $msg='Data disimpan';
   }
-  save($type, $items);
+  $items = load($type);
 }
 $edit = null; if (isset($_GET['edit'])) foreach ($items as $i) if ($i['id']==$_GET['edit']) $edit=$i;
 admin_head('Kelola '.$mod['label']); $keys = array_keys($mod['fields']); ?>

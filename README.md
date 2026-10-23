@@ -1,24 +1,29 @@
 # Website Promosi (PHP + HTML + JS)
 
-Pesan kontak menggunakan **MySQL/MariaDB**, tabel `pesan_kontak`.
-Banner, produk, portofolio, testimoni, FAQ, dan site setting tetap menggunakan JSON seperti versi sebelumnya. Perubahan ini khusus penyimpanan pesan kontak.
+Seluruh konten situs menggunakan **MySQL/MariaDB**: banner, produk, portofolio, testimoni, FAQ, pengaturan situs, dan pesan kontak. Aplikasi tidak memerlukan folder `data/` atau file JSON.
 
 ## Cara menjalankan
 1. Butuh PHP 7.4+ (disarankan PHP 8.2+) dengan ekstensi `pdo_mysql` dan `mbstring`, serta MySQL 5.7+/8.x atau MariaDB 10.3+.
-2. Ekstrak ke `htdocs/webpromo` untuk XAMPP/Laragon, atau folder website pada hosting. Saat memperbarui versi lama, **cadangkan dahulu dan jangan menimpa folder `data/` lama**, karena berisi konten situs Anda.
-3. Di phpMyAdmin/cPanel, buat database (misalnya `webpromo`) dan akun database. Tambahkan akun ke database itu dengan hak SELECT, INSERT, DELETE untuk penggunaan website (impor SQL memerlukan akun dengan hak CREATE).
-4. Pilih database tersebut di phpMyAdmin → **Import** → pilih `database/webpromo.sql` → **Go/Kirim**. SQL tidak menghapus data yang sudah ada; jalankan sebelum menggunakan formulir.
-5. Salin `includes/database.local.example.php` menjadi `includes/database.local.php`. Isi `host`, `port`, `name`, `user`, dan `pass` sesuai hosting. Nama database dan username di cPanel sering memiliki awalan akun, misalnya `akun_webpromo`; gunakan nama lengkapnya. Jangan membagikan file yang sudah berisi password.
-6. Alternatif konfigurasi: atur environment `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASS`; nilainya lebih diutamakan daripada file lokal. Tidak ada akun atau password database aktif dalam ZIP.
-7. Dari folder website jalankan `php -S localhost:8000`, lalu buka `http://localhost:8000` dan `/admin`. Untuk hosting, buka domain Anda.
-8. Login admin awal masih mengikuti versi sebelumnya; **ubah username/password admin di `includes/config.php` sebelum online**. Jangan memakai password bawaan di produksi. Folder `data/` tetap harus dapat ditulis untuk konten situs lainnya (misalnya chmod 775, jangan 777).
+2. Ekstrak ke `htdocs/chiwa` untuk XAMPP/Laragon, atau folder website pada hosting. Database tidak disimpan di Git; setiap developer memiliki MySQL lokal sendiri dan mengimpor skema yang sama dari file SQL di repository.
+3. Di phpMyAdmin, buat database bernama `webpromo`.
+4. Pilih database `webpromo` → **Import** → pilih `database/webpromo1.sql` → **Go/Kirim**. File SQL ini membuat tabel dan mengisi data awal; mengimpor ulang tidak menghapus data yang sudah ada.
+5. Untuk XAMPP lokal, mulai Apache dan MySQL di Control Panel XAMPP. File lokal `includes/database.local.php` menggunakan host `127.0.0.1`, database `webpromo`, user `root`, dan password kosong (nilai bawaan umum XAMPP). Jika instalasi Anda memakai kredensial berbeda, ubah file lokal tersebut. File ini diabaikan Git; jangan commit atau membagikan kredensial.
+6. Untuk hosting, buat `includes/database.local.php` dengan hostname MySQL serta nama database, user, dan password dari penyedia hosting. Host database tidak selalu sama dengan domain website; gunakan hostname yang ditampilkan di panel hosting. File ini diabaikan Git agar kredensial tidak ikut terunggah.
+7. Alternatif konfigurasi: atur environment `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASS`; nilainya lebih diutamakan daripada file lokal.
+8. Buka `http://localhost/chiwa/cek_database.php` untuk memastikan koneksi dan tabel database, lalu `http://localhost/chiwa/` untuk situs atau `/admin` untuk panel admin. Halaman pengecekan koneksi hanya dapat dibuka dari komputer lokal.
+9. Login admin awal masih mengikuti versi sebelumnya; **ubah username/password admin di `includes/config.php` sebelum online**. Jangan memakai password bawaan di produksi.
 
 ## Kirim dan lihat pesan
-- Pengunjung membuka `kontak.php` dan menekan **Kirim Pesan**. Pesan disimpan ke tabel `pesan_kontak`, bukan `data/pesan.json`, dan tidak otomatis dikirim ke email atau WhatsApp.
+- Pengunjung membuka `kontak.php` dan menekan **Kirim Pesan**. Pesan disimpan ke tabel `pesan_kontak` dan tidak otomatis dikirim ke email atau WhatsApp.
 - Admin masuk → **Pesan Kontak** (`admin/kontak.php`) untuk membaca pesan terbaru dan menghapusnya. **Pesan Masuk** di dashboard dihitung dari database yang sama.
 - Data berisi ID unik otomatis, nama, email, telepon, isi pesan, dan tanggal waktu WIB (UTC+7). UTF-8 mendukung karakter Indonesia dan emoji.
 - Jika koneksi database gagal, formulir menampilkan kegagalan, bukan konfirmasi sukses. Isi pesan tetap tampil agar dapat dikirim ulang. Pengiriman sukses diarahkan ulang supaya refresh halaman tidak mengirim pesan yang sama lagi.
 - Query menggunakan PDO prepared statements; form kirim/hapus menggunakan token sesi. Halaman pesan admin tetap memerlukan login.
+
+## Berbagi perubahan database lewat Git
+- Commit perubahan struktur atau data contoh ke `database/webpromo1.sql`, bukan database MySQL atau file `includes/database.local.php`.
+- Setelah `git pull`, developer mengimpor SQL yang diperbarui melalui phpMyAdmin. Buat cadangan database lokal sebelum mengimpor perubahan skema.
+- Karena file SQL memakai `CREATE TABLE IF NOT EXISTS` dan `INSERT IGNORE`, perubahan definisi tabel yang sudah ada perlu diterapkan sebagai migrasi `ALTER TABLE` yang eksplisit; mengimpor ulang saja tidak mengubah kolom tabel lama.
 
 ## Memindahkan pesan lama (opsional)
 1. Simpan cadangan `data/pesan.json` dari website lama. Jangan mengunggahnya ke lokasi publik yang tidak terlindungi.

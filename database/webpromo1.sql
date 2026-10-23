@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `pesan_kontak` (
 
 -- ===== Data awal =====
 -- Admin awal: admin / admin123 (password tersimpan terenkripsi). GANTI segera.
-INSERT IGNORE INTO `admin_users` (`id`, `username`, `password_hash`) VALUES
+INSERT IGNORE INTO `admin` (`id`, `username`, `password_hash`) VALUES
 (1, 'admin', '$2y$12$aTLLvRw6j.zK8uYrfuO0lO.n1mi4eMihPaEcvM7M7NY4DJUsTcAY2');
 
 INSERT IGNORE INTO `settings` (`kunci`, `nilai`) VALUES

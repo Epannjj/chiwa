@@ -1,4 +1,4 @@
-<?php require_once __DIR__.'/../includes/config.php'; require_once __DIR__.'/../includes/seed.php';
+<?php require_once __DIR__.'/../includes/config.php';
 if (empty($_SESSION['admin'])) { header('Location: login.php'); exit; }
 function admin_head($title) { global $MODULES; $cur = basename($_SERVER['PHP_SELF'], '.php'); ?>
 <!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
